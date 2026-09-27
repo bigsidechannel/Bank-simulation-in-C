@@ -2,34 +2,17 @@
 #define CBANK_CUSTOMER_H
 
 #include <stdint.h>
-
-// currency repository
-typedef enum {
-    TRY,
-    USD,
-    EUR,
-    GBP,
-    CHF,
-    JPY
-}Currency;
-
-// Currency values in TRY terms
-static constexpr double EXCHANGE_RATES[] = {
-    [TRY] = 1.0,
-    [USD] = 34.10,
-    [EUR] = 38.05,
-    [GBP] = 45.20,
-    [CHF] = 40.15,
-    [JPY] = 0.237
-};
+#include "currency.h"
 
 // a struct capable of storing account type
 typedef enum {
     ACCOUNT_NONE,
     CHECKING,
     SAVINGS,
-    INVESTMENT
-} Account;
+    INVESTMENT,
+    ACCOUNT_TYPE_COUNT
+} AccountType;
+
 
 // a struct capable of storing birthday
 typedef struct {
@@ -53,7 +36,7 @@ typedef struct {
     uint32_t customer_id;           // customer's accessible ID
     uint64_t balance;               // customer's account balance
     uint64_t debt;                  // customer's account balance due
-    Account account_type;           // customer's account type
+    AccountType account_type;           // customer's account type
     Birthday birthday;              // customer's birthday
     Phone phone;                    // customer's phone number and area code of phone number
     Currency currency;              // customer's account currency
@@ -64,10 +47,10 @@ typedef struct Node {
     struct Node* next;
 }Node;
 
-char* get_string(char* target,int size);
 void clear_customer(Customer* customer);
-void list_customer_information(Customer customer);
-
+const char* account_type_name(AccountType type);
+void list_customer_information(const Customer* customer);
+bool customer_set_name(Customer* customer, const char* name);
 
 
 

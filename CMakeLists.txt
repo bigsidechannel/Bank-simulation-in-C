@@ -6,5 +6,9 @@ set(CMAKE_C_STANDARD 23)
 add_executable(cbank main.c
         customer.h
         customer.c
+        currency.h
+        currency.c
+        input.h
+        input.c
         menu.c
         menu.h)

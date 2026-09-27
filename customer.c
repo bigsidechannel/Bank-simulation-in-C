@@ -2,58 +2,47 @@
 #include <string.h>
 #include "customer.h"
 
-char* get_string(char* target,int size) {
-    if (target == NULL || size == 0) return nullptr;
-    if (fgets(target,size,stdin) != NULL) {
-        char *p = strchr(target,'\n');
-        if (p != NULL) {
-            *p = '\0';
-        }
-        else {
-            int c;
-            while ((c = getchar()) != EOF && c != '\n');
-        }
-    }
-    else {
-        return nullptr;
-    }
-    return target;
-}
-
 void clear_customer(Customer* customer) {
     if (customer == NULL) return;
 
     memset(customer, 0, sizeof(Customer));
 
     customer->account_type = ACCOUNT_NONE;
-    customer->currency = TRY;
+    customer->currency = CURRENCY_TRY;
 }
 
-void list_customer_information(Customer customer) {
-    printf("-------------------------------------");
-    printf("%s",customer.name);
-    printf("Iban: %s",customer.iban);
-    printf("Tc: %s",customer.iban);
-    printf("Password: %s",customer.password);
-    printf("Tc: %u",customer.customer_id);
-    printf("Tc: %llu",customer.balance);
-    printf("Tc: %llu",customer.debt);
-    switch(customer.account_type) {
-        case(CHECKING):
-            printf("Account Type: CHECKING");
-            break;
-        case(SAVINGS):
-            printf("Account Type: SAVINGS");
-            break;
-        case(INVESTMENT):
-            printf("Account Type: INVESTMENT");
-            break;
-        case(ACCOUNT_NONE):
-            printf("Account Type: ACCOUNT_NONE");
-            break;
-        default:
-            printf("Account Type: Unknown");
+static const char* const ACCOUNT_TYPE_NAME[] = {
+    [ACCOUNT_NONE] = "ACCOUNT_NONE",
+    [CHECKING] = "CHECKING",
+    [SAVINGS] = "SAVINGS",
+    [INVESTMENT] = "INVESTMENT",
+};
+
+const char* account_type_name(AccountType type) {
+    if (type < ACCOUNT_TYPE_COUNT && ACCOUNT_TYPE_NAME[type] != nullptr) {
+        return ACCOUNT_TYPE_NAME[type];
     }
-    printf("Tc: %s",customer.iban);
-    printf("Tc: %s",customer.iban);
+    return "Unknown";
+}
+
+void list_customer_information(const Customer* customer) {
+    printf("-------------------------------------\n");
+    printf("%s\n",customer->name);
+    printf("Iban: %s\n",customer->iban);
+    printf("Tc: %s\n",customer->tc);
+    printf("Password: %s\n",customer->password);
+    printf("Id: %u\n",customer->customer_id);
+    printf("balance: %llu\n",customer->balance);
+    printf("debt: %llu\n",customer->debt);
+    printf("Account Type: %s\n", account_type_name(customer->account_type));
+    printf("Phone: +%s %s",customer->phone.area_code, customer->phone.number);
+    printf("Currency: %s", currency_name(customer->currency));
+}
+
+bool customer_set_name(Customer* customer, const char* name) {
+    if (customer != nullptr && name != nullptr && name[0] != '\0') {
+        snprintf(customer->name, sizeof customer->name, "%s", name);
+        return true;
+    }
+    return false;
 }
