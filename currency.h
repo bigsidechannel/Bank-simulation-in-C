@@ -1,0 +1,7 @@
+#ifndef CBANK_CURRENCY_H
+#define CBANK_CURRENCY_H
+
+
+
+
+#endif CBANK_CURRENCY_H

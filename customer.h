@@ -25,10 +25,10 @@ static constexpr double EXCHANGE_RATES[] = {
 
 // a struct capable of storing account type
 typedef enum {
+    ACCOUNT_NONE,
     CHECKING,
     SAVINGS,
-    INVESTMENT,
-    ACCOUNT_NONE
+    INVESTMENT
 } Account;
 
 // a struct capable of storing birthday

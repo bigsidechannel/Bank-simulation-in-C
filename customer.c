@@ -36,8 +36,8 @@ void list_customer_information(Customer customer) {
     printf("Tc: %s",customer.iban);
     printf("Password: %s",customer.password);
     printf("Tc: %u",customer.customer_id);
-    printf("Tc: %lu",customer.balance);
-    printf("Tc: %lu",customer.debt);
+    printf("Tc: %llu",customer.balance);
+    printf("Tc: %llu",customer.debt);
     switch(customer.account_type) {
         case(CHECKING):
             printf("Account Type: CHECKING");

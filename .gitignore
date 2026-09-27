@@ -1,0 +1,10 @@
+.idea/
+.vs/
+out/
+cmake-build-*/
+CMakeSettings.json
+*.user
+*.suo
+*.exe
+*.pdb
+*.obj
