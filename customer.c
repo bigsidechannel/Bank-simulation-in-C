@@ -37,8 +37,8 @@ void list_customer_information(const Customer* customer) {
     printf("balance: %llu\n",customer->balance);
     printf("debt: %llu\n",customer->debt);
     printf("Account Type: %s\n", account_type_name(customer->account_type));
-    printf("Phone: +%s %s",customer->phone.area_code, customer->phone.number);
-    printf("Currency: %s", currency_name(customer->currency));
+    printf("Phone: +%s %s\n",customer->phone.area_code, customer->phone.number);
+    printf("Currency: %s\n", currency_name(customer->currency));
 }
 
 CbankResult customer_set_name(Customer* customer, const char* name) {
