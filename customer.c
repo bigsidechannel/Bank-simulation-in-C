@@ -42,11 +42,8 @@ void list_customer_information(const Customer* customer) {
 }
 
 CbankResult customer_set_name(Customer* customer, const char* name) {
-    if (customer != nullptr && name != nullptr && name[0] != '\0') {
-        snprintf(customer->name, sizeof customer->name, "%s", name);
-        return true;
-    }
-    return false;
+    memcpy(customer->name,name,sizeof customer->name);
+    customer->name[29];
 }
 
 CbankResult customer_set_iban(Customer* customer,const char* iban) {
