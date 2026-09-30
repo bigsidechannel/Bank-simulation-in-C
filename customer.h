@@ -28,12 +28,21 @@ typedef struct {
     char number[11];
 }Phone;
 
+enum {
+    CUSTOMER_NAME_LEN = 30,
+    CUSTOMER_İBAN_LEN = 27,
+    CUSTOMER_TC_LEN = 12,
+    CUSTOMER_PASSWORD_LEN = 30
+};
+
+
+
 // A struct capable of storing customer information.
 typedef struct {
-    char name[30];                  // customer's name
-    char iban[27];                  // customer's iban
-    char tc[12];                    // customer's Republic of Turkey identity number
-    char password[30];              // customer's password
+    char name[CUSTOMER_NAME_LEN];                  // customer's name
+    char iban[CUSTOMER_İBAN_LEN];                  // customer's iban
+    char tc[CUSTOMER_TC_LEN];                    // customer's Republic of Turkey identity number
+    char password[CUSTOMER_PASSWORD_LEN];              // customer's password
     uint32_t customer_id;           // customer's accessible ID
     uint64_t account_number;        // customer's accessible number
     uint64_t balance;               // customer's account balance

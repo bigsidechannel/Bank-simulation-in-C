@@ -6,7 +6,7 @@
 
 int main() {
     Customer customer;
-    char temp[20];
+    char temp[CUSTOMER_NAME_LEN];
     clear_customer(&customer);
     customer_set_name(&customer, input_get_string(temp,sizeof temp));
     customer_set_iban(&customer, "TR580006200000012345678901");

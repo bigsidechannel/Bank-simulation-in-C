@@ -3,14 +3,6 @@
 #include "bank.h"
 #include <string.h>
 
-enum {
-    IBAN_TR_LEN = 26,          // TR IBAN visible length
-    IBAN_BBAN_START = 4,       // first index of bank+reserve+account
-    IBAN_CHECK_HI = 2,         // tens digit of the check number
-    IBAN_CHECK_LO = 3,         // ones digit of the check number
-    IBAN_RESERVE_INDEX = 9     // TR reserved digit, always '0'
-};
-
 static int iban_mod97_push(int rem, int digit) {
     return (rem * 10 + digit) % 97;
 }
