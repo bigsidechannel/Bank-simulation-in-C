@@ -10,8 +10,8 @@ add_executable(cbank main.c
         currency.c
         input.h
         input.c
-        iban.c
-        iban.h
+        validate.c
+        validate.h
         bank.h
         menu.c
         menu.h)
