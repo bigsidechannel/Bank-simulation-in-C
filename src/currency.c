@@ -18,7 +18,7 @@ const char* currency_name(Currency currency) {
 }
 
 // Currency values in TRY terms
-static constexpr uint64_t EXCHANGE_RATES[] = {
+static const uint64_t EXCHANGE_RATES[] = {
     [CURRENCY_TRY] = 100,
     [CURRENCY_USD] = 3410,
     [CURRENCY_EUR] = 3805,

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include "customer.h"
 #include "error.h"
 #include "validate.h"
@@ -34,7 +35,7 @@ void list_customer_information(const Customer* customer) {
     printf("Tc: %s\n",customer->tc);
     printf("Password: %s\n",customer->password);
     printf("Id: %u\n",customer->customer_id);
-    printf("Account Number: %lu\n", customer->account_number);
+    printf("Account Number: %" PRIu64 "\n", customer->account_number);
     printf("balance: %lu\n",customer->balance);
     printf("debt: %lu\n",customer->debt);
     printf("Account Type: %s\n", account_type_name(customer->account_type));
