@@ -4,14 +4,9 @@ project(cbank C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(cbank main.c
-        customer.h
         customer.c
-        currency.h
         currency.c
-        input.h
         input.c
         validate.c
-        validate.h
         bank.h
-        menu.c
-        menu.h)
+        menu.c)
