@@ -5,7 +5,7 @@
 #include "validate.h"
 
 void clear_customer(Customer* customer) {
-    if (customer == NULL) return;
+    if (customer == nullptr) return;
 
     memset(customer, 0, sizeof(Customer));
 
@@ -34,9 +34,9 @@ void list_customer_information(const Customer* customer) {
     printf("Tc: %s\n",customer->tc);
     printf("Password: %s\n",customer->password);
     printf("Id: %u\n",customer->customer_id);
-    printf("Account Number: %llu\n", customer->account_number);
-    printf("balance: %llu\n",customer->balance);
-    printf("debt: %llu\n",customer->debt);
+    printf("Account Number: %lu\n", customer->account_number);
+    printf("balance: %lu\n",customer->balance);
+    printf("debt: %lu\n",customer->debt);
     printf("Account Type: %s\n", account_type_name(customer->account_type));
     printf("Phone: +%s %s\n",customer->phone.area_code, customer->phone.number);
     printf("Currency: %s\n", currency_name(customer->currency));
