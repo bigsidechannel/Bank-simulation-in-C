@@ -4,15 +4,11 @@ project(cbank C)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Header dosyalarının konumunu göster
-include_directories(include)
+# 1. Önce src altındaki tüm .c dosyalarını yakala
+file(GLOB SOURCES "src/*.c")
 
-# Kaynak kodları (.c) listele
-add_executable(cbank
-    src/main.c
-    src/customer.c
-    src/currency.c
-    src/input.c
-    src/validate.c
-    src/menu.c
-)
+# 2. Sonra hedefi (executable) oluştur
+add_executable(cbank ${SOURCES})
+
+# 3. En son oluşturulan cbank hedefine include dizinini bağla
+target_include_directories(cbank PRIVATE include)
