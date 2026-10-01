@@ -1,5 +1,4 @@
-#ifndef CBANK_CUSTOMER_H
-#define CBANK_CUSTOMER_H
+#pragma once
 
 #include <stdint.h>
 #include "currency.h"
@@ -63,8 +62,3 @@ const char* account_type_name(AccountType type);
 void list_customer_information(const Customer* customer);
 CbankResult customer_set_name(Customer* customer, const char* name);
 CbankResult customer_set_iban(Customer* customer, const char* iban);
-
-
-
-
-#endif //CBANK_CUSTOMER_H

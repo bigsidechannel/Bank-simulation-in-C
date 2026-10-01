@@ -1,5 +1,4 @@
-#ifndef CBANK_VALIDATE_H
-#define CBANK_VALIDATE_H
+#pragma once
 
 #include "error.h"
 
@@ -14,4 +13,3 @@ enum {
 
 CbankResult iban_validate(const char* iban);
 CbankResult name_validate(const char* name);
-#endif //CBANK_VALIDATE_H

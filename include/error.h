@@ -1,5 +1,4 @@
-#ifndef CBANK_ERROR_H
-#define CBANK_ERROR_H
+#pragma once
 
 typedef enum {
     CBANK_OK = 0,
@@ -15,5 +14,3 @@ typedef enum {
     CBANK_ERR_NAME,
     CBANK_ERR_RESERVE_DIGIT
 } CbankResult;
-
-#endif

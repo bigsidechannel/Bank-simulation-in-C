@@ -1,6 +1,4 @@
-#ifndef CBANK_CURRENCY_H
-#define CBANK_CURRENCY_H
-
+#pragma once
 #include <stdint.h>
 
 // currency repository
@@ -15,5 +13,3 @@ typedef enum {
 }Currency;
 
 const char* currency_name(Currency currency);
-
-#endif //CBANK_CURRENCY_H
