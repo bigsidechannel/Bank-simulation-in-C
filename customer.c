@@ -44,17 +44,20 @@ void list_customer_information(const Customer* customer) {
 
 CbankResult customer_set_name(Customer* customer, const char* name) {
     if (customer == nullptr) return CBANK_ERR_NULL;
-    if (name == nullptr) return CBANK_ERR_NULL;
-    if (name[0] == '\0') return CBANK_ERR_EMPTY;
-    if (strlen(name) != CUSTOMER_NAME_LEN) return CBANK_ERR_LENGTH;
 
-    memcpy(customer->name,name,sizeof customer->name);
-    customer->name[29];
+    CbankResult is_valid = name_validate(name);
+    if (is_valid != CBANK_OK) {
+        printf("name_validate_err: %d\n",is_valid);
+        return is_valid;
+    } 
 
+    strncpy(customer->name, name, CUSTOMER_NAME_LEN - 1);
+    customer->name[CUSTOMER_NAME_LEN - 1] = '\0'; 
     return CBANK_OK;
 }
 
 CbankResult customer_set_iban(Customer* customer,const char* iban) {
+    if (iban_validate(iban) != CBANK_OK) return CBANK_ERR_FULL;
     if (customer == nullptr) return CBANK_ERR_NULL;
     if (iban == nullptr) return CBANK_ERR_NULL;
     if (iban[0] == '\0') return CBANK_ERR_EMPTY;

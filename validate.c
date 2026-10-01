@@ -3,6 +3,7 @@
 #include "bank.h"
 #include "customer.h"
 #include <string.h>
+#include <ctype.h>
 
 
 static int iban_mod97_push(int rem, int digit) {
@@ -69,5 +70,14 @@ CbankResult iban_validate(const char* iban) {
 CbankResult name_validate(const char* name) {
     if (name == nullptr) return CBANK_ERR_NULL;
     if (name[0] == '\0') return CBANK_ERR_EMPTY;
-    if (strlen(name) != CUSTOMER_NAME_LEN) return CBANK_ERR_LENGTH;
+
+    size_t len = strlen(name);
+
+    if (len >= CUSTOMER_NAME_LEN) return CBANK_ERR_LENGTH;
+
+    for (size_t i = 0;i < len;i++) {
+        if(isdigit(name[i])) return CBANK_ERR_NAME;
+    }
+
+    return CBANK_OK;
 }
