@@ -4,6 +4,7 @@ out/
 build/
 cmake-build-*/
 CMakeSettings.json
+output.db
 *.user
 *.suo
 *.exe
