@@ -8,4 +8,4 @@ enum {
 static const char BANK_COUNTRY[] = "TR";
 static const char BANK_CODE[] = "99001";
 static const char BANK_NAME[] = "C Bank";
-static constexpr char BANK_RESERVE_DIGIT = '0';
+static const char BANK_RESERVE_DIGIT = '0';

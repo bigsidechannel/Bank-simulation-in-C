@@ -48,7 +48,7 @@ CbankResult customer_set_name(Customer* customer, const char* name) {
 
     CbankResult is_valid = name_validate(name);
     if (is_valid != CBANK_OK) {
-        printf("name_validate_err: %d\n",is_valid);
+        printf("name_validate_err: %s\n",cbank_errors(is_valid));
         return is_valid;
     } 
 

@@ -12,5 +12,9 @@ typedef enum {
     CBANK_ERR_BANK_COUNTRY,
     CBANK_ERR_BANK_CODE,
     CBANK_ERR_NAME,
-    CBANK_ERR_RESERVE_DIGIT
+    CBANK_ERR_RESERVE_DIGIT,
+    CBANK_ERR_COUNT
 } CbankResult;
+
+
+const char* cbank_errors(CbankResult error);

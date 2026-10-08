@@ -14,8 +14,7 @@ int main() {
     clear_customer(&customer);
     CbankResult customer_set_name_err = customer_set_name(&customer, (char*)input_get_string(temp,sizeof temp));
     CbankResult customer_set_iban_err = customer_set_iban(&customer, my_iban);
-    printf("customer_set_iban_err: %d\n",customer_set_iban_err);
-    printf("customer_set_name_err: %d\n",customer_set_iban_err);
+    printf("customer_set_iban_err: %s\n",cbank_errors(customer_set_iban_err));
     list_customer_information(&customer);
     return 0;
 }
