@@ -58,14 +58,16 @@ CbankResult customer_set_name(Customer* customer, const char* name) {
 }
 
 CbankResult customer_set_iban(Customer* customer,const char* iban) {
-    if (iban_validate(iban) != CBANK_OK) return CBANK_ERR_FULL;
+    CbankResult is_valid = iban_validate(iban);
     if (customer == nullptr) return CBANK_ERR_NULL;
-    if (iban == nullptr) return CBANK_ERR_NULL;
-    if (iban[0] == '\0') return CBANK_ERR_EMPTY;
-    if (strlen(iban) != IBAN_TR_LEN) return CBANK_ERR_LENGTH;
 
-    memcpy(customer->iban, iban, IBAN_TR_LEN);
-    customer->iban[IBAN_TR_LEN] = '\0';
+    if(is_valid != CBANK_OK) {
+        printf("iban_validate_error: %s\n",cbank_errors(is_valid));
+        return is_valid;
+    }
+
+    strncpy(customer->iban, iban, CUSTOMER_İBAN_LEN - 1);
+    customer->iban[CUSTOMER_NAME_LEN - 1] = '\0';
 
     return CBANK_OK;
 }

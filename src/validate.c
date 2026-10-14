@@ -67,7 +67,7 @@ CbankResult iban_validate(const char* iban) {
     return CBANK_OK;
 }
 
-CbankResult name_validate(const char* name) {
+CbankResult  name_validate(const char* name) {
     if (name == nullptr) return CBANK_ERR_NULL;
     if (name[0] == '\0') return CBANK_ERR_EMPTY;
 
