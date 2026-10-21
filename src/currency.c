@@ -10,13 +10,6 @@ static const char* const CURRENCY_NAME[] = {
     [CURRENCY_JPY] = "JPY"
 };
 
-const char* currency_name(Currency currency) {
-    if (currency < CURRENCY_COUNT && CURRENCY_NAME[currency] != nullptr) {
-        return CURRENCY_NAME[currency];
-    }
-    return "Unknown";
-}
-
 // Currency values in TRY terms
 static const uint64_t EXCHANGE_RATES[] = {
     [CURRENCY_TRY] = 100,
@@ -26,3 +19,19 @@ static const uint64_t EXCHANGE_RATES[] = {
     [CURRENCY_CHF] = 4015,
     [CURRENCY_JPY] = 24
 };
+
+const char* currency_name(Currency currency) {
+    if (currency < CURRENCY_COUNT && CURRENCY_NAME[currency] != nullptr) {
+        return CURRENCY_NAME[currency];
+    }
+    return "Unknown";
+}
+
+
+
+uint64_t currency_value(Currency currency) {
+    if(currency < CURRENCY_COUNT && currency >= CURRENCY_TRY) {
+        return EXCHANGE_RATES[currency];
+    }
+    return 0;
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <stdint.h>
 
 // currency repository
 typedef enum {
@@ -13,3 +14,4 @@ typedef enum {
 }Currency;
 
 const char* currency_name(Currency currency);
+uint64_t currency_value(Currency currency);

@@ -12,3 +12,18 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.c")
 add_executable(cbank ${SOURCES})
 
 target_include_directories(cbank PRIVATE include)
+
+# ---- Derleyici Hata ve Uyarı Parametreleri ----
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(cbank PRIVATE 
+        -Wall          # Temel uyarıların tamamını açar
+        -Wextra        # Ekstra (gelişmiş) uyarıları aktif eder
+        -Wpedantic     # C23 standartlarına tam uyumluluğu zorlar, standart dışı her şeye uyarır
+        -Werror        # Tüm uyarıları "Hata" olarak kabul eder ve derlemeyi durdurur (Önerilir!)
+    )
+elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(cbank PRIVATE 
+        /W4            # En yüksek mantıklı uyarı seviyesi
+        /WX            # Uyarıları hataya dönüştürür
+    )
+endif()

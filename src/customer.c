@@ -67,7 +67,7 @@ CbankResult customer_set_iban(Customer* customer,const char* iban) {
     }
 
     strncpy(customer->iban, iban, CUSTOMER_İBAN_LEN - 1);
-    customer->iban[CUSTOMER_NAME_LEN - 1] = '\0';
+    customer->iban[CUSTOMER_İBAN_LEN - 1] = '\0';
 
     return CBANK_OK;
 }
