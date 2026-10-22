@@ -16,7 +16,7 @@ static const char* const CBANK_ERRORS[] = {
 };
 
 const char* cbank_errors(CbankResult error) {
-    if (error >= CBANK_ERR_COUNT && error < CBANK_OK) return "Error number unspecified";
+    if (error < CBANK_OK || error >= CBANK_ERR_COUNT) return "Error number unspecified";
 
     return CBANK_ERRORS[error];
 }

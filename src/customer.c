@@ -44,11 +44,10 @@ void list_customer_information(const Customer* customer) {
 }
 
 CbankResult customer_set_name(Customer* customer, const char* name) {
-    if (customer == nullptr) return CBANK_ERR_NULL;
+    if (customer == nullptr || name == nullptr) return CBANK_ERR_NULL;
 
     CbankResult is_valid = name_validate(name);
     if (is_valid != CBANK_OK) {
-        printf("name_validate_err: %s\n",cbank_errors(is_valid));
         return is_valid;
     } 
 
@@ -58,16 +57,31 @@ CbankResult customer_set_name(Customer* customer, const char* name) {
 }
 
 CbankResult customer_set_iban(Customer* customer,const char* iban) {
-    CbankResult is_valid = iban_validate(iban);
-    if (customer == nullptr) return CBANK_ERR_NULL;
+    if (customer == nullptr || iban == nullptr) return CBANK_ERR_NULL;
 
+    CbankResult is_valid = iban_validate(iban);
     if(is_valid != CBANK_OK) {
-        printf("iban_validate_error: %s\n",cbank_errors(is_valid));
         return is_valid;
     }
 
-    strncpy(customer->iban, iban, CUSTOMER_İBAN_LEN - 1);
-    customer->iban[CUSTOMER_İBAN_LEN - 1] = '\0';
+    strncpy(customer->iban, iban, CUSTOMER_IBAN_LEN - 1);
+    customer->iban[CUSTOMER_IBAN_LEN - 1] = '\0';
+
+    return CBANK_OK;
+}
+
+CbankResult customer_set_tc(Customer* customer, const char* tc, size_t tc_buf_len) {
+    if (customer == nullptr || tc == nullptr || tc_buf_len == 0) return CBANK_ERR_NULL;
+    
+    // Gelen buffer en az 12 bayt olmalı (11 hane + '\0')
+    if (tc_buf_len < CUSTOMER_TC_LEN) return CBANK_ERR_LENGTH;
+
+    CbankResult is_valid = tc_validate(tc);
+    if (is_valid != CBANK_OK) return is_valid;
+
+    // Uzunluk doğrulandığı için güvenli kopyalama
+    memcpy(customer->tc, tc, 11);
+    customer->tc[11] = '\0';
 
     return CBANK_OK;
 }

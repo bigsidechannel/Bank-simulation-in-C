@@ -87,39 +87,52 @@ CbankResult  name_validate(const char* name) {
 }
 
 CbankResult tc_validate(const char* tc) {
-    if (tc == nullptr) return CBANK_ERR_NULL;
-    if (tc[0] == '\0') return CBANK_ERR_EMPTY;
-
-    size_t len = strlen(tc);
-
-    if(len != 11) return CBANK_ERR_LENGTH;
-
-    for (size_t i = 0;i < len;i++) {
-        if(!isdigit(tc[i])) return CBANK_ERR_TC;
-    }
-    
-    #define tc_digit(x) (tc[x] - '0')
-
-    
-    if (tc_digit(0) == 0) return CBANK_ERR_TC_FIRST_DIGIT;
-
+    if (tc == NULL) return CBANK_ERR_NULL;
 
     uint8_t singles = 0;
     uint8_t doubles = 0;
-    uint8_t tc_algorithms_tenth_digit = 0;
-    uint8_t tc_algorithms_eleventh_digit = 0;
-    for (size_t i = 0; i < len - 2; i++) {
-        if (i % 2 == 0) {
-            singles+=tc_digit(i);
+    uint8_t all_first_ten_sum = 0;
+
+    for (size_t i = 0; i < 11; i++) {
+        // String 11 haneden kısa ise sınır aşımını engeller
+        if (tc[i] == '\0') return CBANK_ERR_LENGTH;
+        
+        // Negatif char değerlerinin isdigit'e gitmesini engeller
+        if (!isdigit((unsigned char)tc[i])) return CBANK_ERR_TC;
+
+        uint8_t digit = (uint8_t)(tc[i] - '0');
+
+        // Yapısal kurallar
+        if (i == 0 && digit == 0) return CBANK_ERR_TC_FIRST_DIGIT;
+        if (i == 10 && (digit % 2 != 0)) return CBANK_ERR_LAST_DIGIT;
+
+        // Algoritma toplamları
+        if (i < 9) {
+            if (i % 2 == 0) {
+                singles += digit;
+            } else {
+                doubles += digit;
+            }
         }
-        else {
-            doubles+=tc_digit(i);
+        
+        if (i < 10) {
+            all_first_ten_sum += digit;
         }
     }
-    tc_algorithms_tenth_digit = ((((singles * 7) - (doubles)) % 10) + 10) % 10;
-    tc_algorithms_eleventh_digit = (singles + doubles + tc_digit(9)) % 10;
-    printf("10. hane = %"PRIu8"\n",tc_algorithms_tenth_digit);
-    printf("11. hane = %"PRIu8"\n",tc_algorithms_eleventh_digit);
-    
+
+    // String 11 haneden uzun ise hata döner
+    if (tc[11] != '\0') return CBANK_ERR_LENGTH;
+
+    // 10. ve 11. hane hesaplaması
+    uint8_t expected_tenth = ((((singles * 7) - doubles) % 10) + 10) % 10;
+    uint8_t expected_eleventh = all_first_ten_sum % 10;
+
+    uint8_t actual_tenth = (uint8_t)(tc[9] - '0');
+    uint8_t actual_eleventh = (uint8_t)(tc[10] - '0');
+
+    if (expected_tenth != actual_tenth || expected_eleventh != actual_eleventh) {
+        return CBANK_ERR_LAST_TWO_DIGIT;
+    }
+
     return CBANK_OK;
 }

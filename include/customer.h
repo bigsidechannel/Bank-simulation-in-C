@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stddef.h>
 #include "currency.h"
 #include "error.h"
 
@@ -28,10 +29,10 @@ typedef struct {
 }Phone;
 
 enum {
-    CUSTOMER_NAME_LEN = 30,
-    CUSTOMER_İBAN_LEN = 27,
-    CUSTOMER_TC_LEN = 12,
-    CUSTOMER_PASSWORD_LEN = 30
+    CUSTOMER_NAME_LEN     = 64,
+    CUSTOMER_IBAN_LEN     = 27,
+    CUSTOMER_TC_LEN       = 12,
+    CUSTOMER_PASSWORD_LEN = 128
 };
 
 
@@ -39,7 +40,7 @@ enum {
 // A struct capable of storing customer information.
 typedef struct {
     char name[CUSTOMER_NAME_LEN];                  // customer's name
-    char iban[CUSTOMER_İBAN_LEN];                  // customer's iban
+    char iban[CUSTOMER_IBAN_LEN];                  // customer's iban
     char tc[CUSTOMER_TC_LEN];                    // customer's Republic of Turkey identity number
     char password[CUSTOMER_PASSWORD_LEN];              // customer's password
     uint32_t customer_id;           // customer's accessible ID
@@ -62,7 +63,7 @@ const char* account_type_name(AccountType type);
 void list_customer_information(const Customer* customer);
 CbankResult customer_set_name(Customer* customer, const char* name);
 CbankResult customer_set_iban(Customer* customer, const char* iban);
-CbankResult customer_set_tc(Customer* customer, const char* tc);
+CbankResult customer_set_tc(Customer* customer, const char* tc, size_t tc_buf_len);
 CbankResult customer_set_password(Customer* customer, const char* password);
 CbankResult customer_set_customer_id(Customer* customer, const uint32_t customer_id);
 CbankResult customer_set_account_number(Customer* customer, const uint64_t account_number);
