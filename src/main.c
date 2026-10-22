@@ -4,13 +4,15 @@
 #include "customer.h"
 #include "input.h"
 #include "error.h"
+#include "validate.h"
 
 int main() {
     Customer customer;
     char temp[CUSTOMER_NAME_LEN];
     // Bellekteki sabit metnin adresini bir pointer'a atıyoruz.
     const char* my_iban = "TR419900100000012345678901";
-    
+    const char* my_tc = "***REMOVED***";
+    tc_validate(my_tc);
     clear_customer(&customer);
     customer_set_name(&customer, (char*)input_get_string(temp,sizeof temp));
     customer_set_iban(&customer, my_iban);

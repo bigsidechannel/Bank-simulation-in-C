@@ -2,6 +2,10 @@
 #include "error.h"
 #include "bank.h"
 #include "customer.h"
+#include <inttypes.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -79,5 +83,43 @@ CbankResult  name_validate(const char* name) {
         if(isdigit(name[i])) return CBANK_ERR_NAME;
     }
 
+    return CBANK_OK;
+}
+
+CbankResult tc_validate(const char* tc) {
+    if (tc == nullptr) return CBANK_ERR_NULL;
+    if (tc[0] == '\0') return CBANK_ERR_EMPTY;
+
+    size_t len = strlen(tc);
+
+    if(len != 11) return CBANK_ERR_LENGTH;
+
+    for (size_t i = 0;i < len;i++) {
+        if(!isdigit(tc[i])) return CBANK_ERR_TC;
+    }
+    
+    #define tc_digit(x) (tc[x] - '0')
+
+    
+    if (tc_digit(0) == 0) return CBANK_ERR_TC_FIRST_DIGIT;
+
+
+    uint8_t singles = 0;
+    uint8_t doubles = 0;
+    uint8_t tc_algorithms_tenth_digit = 0;
+    uint8_t tc_algorithms_eleventh_digit = 0;
+    for (size_t i = 0; i < len - 2; i++) {
+        if (i % 2 == 0) {
+            singles+=tc_digit(i);
+        }
+        else {
+            doubles+=tc_digit(i);
+        }
+    }
+    tc_algorithms_tenth_digit = ((((singles * 7) - (doubles)) % 10) + 10) % 10;
+    tc_algorithms_eleventh_digit = (singles + doubles + tc_digit(9)) % 10;
+    printf("10. hane = %"PRIu8"\n",tc_algorithms_tenth_digit);
+    printf("11. hane = %"PRIu8"\n",tc_algorithms_eleventh_digit);
+    
     return CBANK_OK;
 }
