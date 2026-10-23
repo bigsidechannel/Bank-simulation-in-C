@@ -94,19 +94,15 @@ CbankResult tc_validate(const char* tc) {
     uint8_t all_first_ten_sum = 0;
 
     for (size_t i = 0; i < 11; i++) {
-        // String 11 haneden kısa ise sınır aşımını engeller
         if (tc[i] == '\0') return CBANK_ERR_LENGTH;
         
-        // Negatif char değerlerinin isdigit'e gitmesini engeller
         if (!isdigit((unsigned char)tc[i])) return CBANK_ERR_TC;
 
         uint8_t digit = (uint8_t)(tc[i] - '0');
 
-        // Yapısal kurallar
         if (i == 0 && digit == 0) return CBANK_ERR_TC_FIRST_DIGIT;
         if (i == 10 && (digit % 2 != 0)) return CBANK_ERR_LAST_DIGIT;
 
-        // Algoritma toplamları
         if (i < 9) {
             if (i % 2 == 0) {
                 singles += digit;
@@ -120,10 +116,8 @@ CbankResult tc_validate(const char* tc) {
         }
     }
 
-    // String 11 haneden uzun ise hata döner
     if (tc[11] != '\0') return CBANK_ERR_LENGTH;
 
-    // 10. ve 11. hane hesaplaması
     uint8_t expected_tenth = ((((singles * 7) - doubles) % 10) + 10) % 10;
     uint8_t expected_eleventh = all_first_ten_sum % 10;
 
@@ -133,6 +127,17 @@ CbankResult tc_validate(const char* tc) {
     if (expected_tenth != actual_tenth || expected_eleventh != actual_eleventh) {
         return CBANK_ERR_LAST_TWO_DIGIT;
     }
+
+    return CBANK_OK;
+}
+
+CbankResult password_validate(const char* password) {
+    if(password == nullptr) return CBANK_ERR_NULL;
+    if(password[0] == '\0') return CBANK_ERR_EMPTY;
+    
+    size_t len = strlen(password);
+
+    if(len >= CUSTOMER_PASSWORD_LEN) return CBANK_ERR_LENGTH;
 
     return CBANK_OK;
 }

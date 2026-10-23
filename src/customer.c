@@ -85,3 +85,16 @@ CbankResult customer_set_tc(Customer* customer, const char* tc, size_t tc_buf_le
 
     return CBANK_OK;
 }
+
+CbankResult customer_set_password(Customer* customer, const char* password) {
+    if (customer == nullptr || password == nullptr) return CBANK_ERR_NULL;
+
+    CbankResult is_valid = password_validate(password);
+    if(is_valid != CBANK_OK) return is_valid;
+
+    strncpy(customer->password , password, CUSTOMER_PASSWORD_LEN - 1);
+    customer->password[CUSTOMER_PASSWORD_LEN -1] = '\0';
+
+    return CBANK_OK;
+
+}
