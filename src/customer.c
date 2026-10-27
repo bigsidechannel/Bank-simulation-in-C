@@ -96,5 +96,15 @@ CbankResult customer_set_password(Customer* customer, const char* password) {
     customer->password[CUSTOMER_PASSWORD_LEN -1] = '\0';
 
     return CBANK_OK;
+}
 
+CbankResult customer_set_customer_id(Customer* customer, const uint32_t customer_id) {
+    if(customer == nullptr || customer_id == 0) return CBANK_ERR_NULL;
+
+    CbankResult is_valid = customer_id_validate(customer_id);
+    if(is_valid != CBANK_OK) return is_valid;
+
+    customer->customer_id = customer_id;
+
+    return CBANK_OK;
 }

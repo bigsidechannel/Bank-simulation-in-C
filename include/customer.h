@@ -39,18 +39,18 @@ enum {
 
 // A struct capable of storing customer information.
 typedef struct {
-    char name[CUSTOMER_NAME_LEN];                  // customer's name
-    char iban[CUSTOMER_IBAN_LEN];                  // customer's iban
-    char tc[CUSTOMER_TC_LEN];                    // customer's Republic of Turkey identity number
-    char password[CUSTOMER_PASSWORD_LEN];              // customer's password
-    uint32_t customer_id;           // customer's accessible ID
-    uint64_t account_number;        // customer's accessible number
-    uint64_t balance;               // customer's account balance
-    uint64_t debt;                  // customer's account balance due
-    AccountType account_type;       // customer's account type
-    Birthday birthday;              // customer's birthday
-    Phone phone;                    // customer's phone number and area code of phone number
-    Currency currency;              // customer's account currency
+    char name[CUSTOMER_NAME_LEN];               // customer's name
+    char iban[CUSTOMER_IBAN_LEN];               // customer's iban
+    char tc[CUSTOMER_TC_LEN];                   // customer's Republic of Turkey identity number
+    char password[CUSTOMER_PASSWORD_LEN];       // customer's password
+    uint32_t customer_id;                       // customer's accessible ID
+    uint64_t account_number;                    // customer's accessible number
+    uint64_t balance;                           // customer's account balance
+    uint64_t debt;                              // customer's account balance due
+    AccountType account_type;                   // customer's account type
+    Birthday birthday;                          // customer's birthday
+    Phone phone;                                // customer's phone number and area code of phone number
+    Currency currency;                          // customer's account currency
 }Customer;
 
 typedef struct Node {

@@ -141,3 +141,11 @@ CbankResult password_validate(const char* password) {
 
     return CBANK_OK;
 }
+
+CbankResult customer_id_validate(const uint32_t customer_id) {
+    if (customer_id == 0) return  CBANK_ERR_EMPTY;
+    if (customer_id > UINT32_MAX) return CBANK_ERR_LENGTH;
+    if (customer_id <= 0) return CBANK_ERR_FORMAT;
+
+    return CBANK_OK;
+}
