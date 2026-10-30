@@ -11,9 +11,8 @@
 
 
 char* input_get_string() {
-    char* target = (char*)malloc(1024);
+    static char target[1024];
     size_t size = 1024;
-    if (target == nullptr) return nullptr;
 
     if (fgets(target, size, stdin) != nullptr) {
         char* p = strchr(target, '\n');
@@ -26,19 +25,16 @@ char* input_get_string() {
         }
     }
     else {
-        free(target);
         return nullptr;
     }
     return target;
 }
 
 uint8_t input_get_uint8_t() {
-    char temp[UINT_DIGITS(uint8_t)];
     uint8_t uin = 0;
-    
-    input_get_string();
-
-    int adet = sscanf(temp, "%" SCNu8, &uin);
+    char* str = input_get_string();
+    if (str == nullptr) return (uint8_t)0;
+    int adet = sscanf(str, "%" SCNu8, &uin);
     if(adet == 1) {
         return (uint8_t)uin;
     }
