@@ -1,44 +1,109 @@
-#include "input.h"
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 #include <inttypes.h>
-#include <stdio.h>
+#include <errno.h>
+#include <limits.h>
 
-#define UINT_DIGITS(type) (((sizeof(type) * 8 * 30103) / 100000 + 1) + 1)
+char* input_get_string(void) {
+    char buffer[1024];
 
-
-char* input_get_string() {
-    static char target[1024];
-    size_t size = 1024;
-
-    if (fgets(target, size, stdin) != nullptr) {
-        char* p = strchr(target, '\n');
+    if (fgets(buffer, sizeof(buffer), stdin) != nullptr) {
+        char* p = strchr(buffer, '\n');
         if (p != nullptr) {
             *p = '\0';
-        }
-        else {
+        } else {
             int c;
             while ((c = getchar()) != EOF && c != '\n');
+            return nullptr;
         }
+
+        size_t len = strlen(buffer) + 1;
+        char* dynamic_str = malloc(len);
+        if (dynamic_str == nullptr) return nullptr;
+
+        memcpy(dynamic_str, buffer, len);
+        return dynamic_str;
     }
-    else {
-        return nullptr;
-    }
-    return target;
+    return nullptr;
 }
 
-uint8_t input_get_uint8_t() {
-    uint8_t uin = 0;
+// ============================================================================
+// DÜZELTME: Bütün parametrelerin tipleri eksiksiz tanımlandı
+// ============================================================================
+static bool parse_integer(bool is_signed, uint64_t min_limit, uint64_t max_limit, uint64_t* out_val) {
+    if (out_val == nullptr) return false;
+
     char* str = input_get_string();
-    if (str == nullptr) return (uint8_t)0;
-    int adet = sscanf(str, "%" SCNu8, &uin);
-    if(adet == 1) {
-        return (uint8_t)uin;
+    if (str == nullptr) return false;
+
+    char* start = str;
+    while (*start == ' ' || *start == '\t') start++;
+
+    // İşaretsiz (unsigned) tipler için eksi işareti denetimi
+    if (!is_signed && *start == '-') {
+        free(str);
+        return false;
     }
-    else {
-        return (uint8_t)0;
+
+    char* endptr = nullptr;
+    errno = 0;
+
+    if (is_signed) {
+        intmax_t val = strtoimax(str, &endptr, 10);
+        if (endptr == str || *endptr != '\0' || errno == ERANGE || 
+            val < (intmax_t)min_limit || val > (intmax_t)max_limit) {
+            free(str);
+            return false;
+        }
+        *out_val = (uint64_t)val;
+    } else {
+        uintmax_t val = strtoumax(str, &endptr, 10);
+        if (endptr == str || *endptr != '\0' || errno == ERANGE || 
+            val > (uintmax_t)max_limit) {
+            free(str);
+            return false;
+        }
+        *out_val = (uint64_t)val;
     }
+
+    free(str);
+    return true;
 }
+
+// ============================================================================
+// Makro Tanımları (Function Generation)
+// ============================================================================
+
+#define DEFINE_INPUT_GET_UNSIGNED(type, max_val)            \
+bool input_get_##type(type* out_val) {                      \
+    uint64_t raw_val = 0;                                   \
+    if (!parse_integer(false, 0, max_val, &raw_val)) {      \
+        return false;                                       \
+    }                                                       \
+    *out_val = (type)raw_val;                               \
+    return true;                                            \
+}
+
+#define DEFINE_INPUT_GET_SIGNED(type, min_val, max_val)     \
+bool input_get_##type(type* out_val) {                      \
+    uint64_t raw_val = 0;                                   \
+    if (!parse_integer(true, (uint64_t)(min_val), (uint64_t)(max_val), &raw_val)) { \
+        return false;                                       \
+    }                                                       \
+    *out_val = (type)raw_val;                               \
+    return true;                                            \
+}
+
+// --- Fonksiyon Gövdelerinin Üretilmesi ---
+DEFINE_INPUT_GET_UNSIGNED(uint8_t,  UINT8_MAX)
+DEFINE_INPUT_GET_UNSIGNED(uint16_t, UINT16_MAX)
+DEFINE_INPUT_GET_UNSIGNED(uint32_t, UINT32_MAX)
+DEFINE_INPUT_GET_UNSIGNED(uint64_t, UINT64_MAX)
+
+DEFINE_INPUT_GET_SIGNED(int8_t,  INT8_MIN,  INT8_MAX)
+DEFINE_INPUT_GET_SIGNED(int16_t, INT16_MIN, INT16_MAX)
+DEFINE_INPUT_GET_SIGNED(int32_t, INT32_MIN, INT32_MAX)
+DEFINE_INPUT_GET_SIGNED(int64_t, INT64_MIN, INT64_MAX)

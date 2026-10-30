@@ -1,16 +1,9 @@
+#include "input.h"
 #include <stdio.h>
 #include <stdint.h>
-#include <string.h>
-#include "customer.h"
-#include "input.h"
-#include "error.h"
-#include "validate.h"
+#include <inttypes.h>
 
-int main() {
+int main(void) {
     
     return 0;
 }
-
-
-
-
