@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-char* input_get_string(char* target, int size);
+char* input_get_string();
 uint8_t input_get_uint8_t();
 uint16_t input_get_uint16_t();
 uint32_t input_get_uint32_t();
